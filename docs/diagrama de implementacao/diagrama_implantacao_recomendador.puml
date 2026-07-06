@@ -1,0 +1,56 @@
+@startuml
+' Diagrama de Implantação - Sistema de Recomendação de Grade Acadêmica
+' Artefato editável em PlantUML
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam defaultFontName Arial
+skinparam linetype ortho
+
+node "<<device>>\nDispositivo do usuário\nPC, notebook ou smartphone" as Client {
+  node "<<executionEnvironment>>\nNavegador Web\nChrome / Firefox / Edge" as Browser {
+    artifact "<<artifact>>\nCliente Web\nInterface de recomendação e grade" as ClientWeb
+  }
+}
+
+cloud "<<cloud>>\nGitHub" as GitHub {
+  artifact "<<artifact>>\nRepositório Git\ncódigo, diagramas, protótipos e documentação" as Repo
+  node "<<executionEnvironment>>\nGitHub Actions\nvalidação, testes, build e pacote" as Actions
+  Repo --> Actions : aciona
+}
+
+cloud "<<network>>\nInternet" as Internet
+
+node "<<device>>\nServidor Web e de Aplicação\nAmbiente cloud ou datacenter institucional" as AppServer {
+  node "<<executionEnvironment>>\nSO Linux + Servidor HTTP\n+ Runtime da Aplicação" as Runtime {
+    artifact "<<artifact>>\nFrontend compilado\nHTML / CSS / JavaScript" as Frontend
+    artifact "<<artifact>>\nAPI REST do Recomendador" as API
+    component "<<component>>\nMotor de Recomendação\nregras, pré-requisitos, horários e carga" as Engine
+    component "<<component>>\nAutenticação, autorização\ne auditoria" as Auth
+    component "<<component>>\nIntegração com Sistema Acadêmico" as Integration
+  }
+}
+
+node "<<device>>\nServidor de Banco de Dados\nRede privada" as DBServer {
+  node "<<executionEnvironment>>\nSGBD Relacional\nPostgreSQL (referência)" as DBMS {
+    artifact "<<artifact>>\nBase recomendador_grade\nalunos, matrizes, disciplinas, turmas, regras, auditoria" as Data
+    artifact "<<artifact>>\nMigrações SQL\nversionadas no repositório" as Migrations
+  }
+}
+
+node "<<system>>\nSistema Acadêmico Institucional\n(SIGAA ou equivalente)" as Academic {
+  component "<<component>>\nAPI acadêmica" as AcademicApi
+}
+
+ClientWeb --> Internet : HTTPS / TCP 443
+Internet --> Frontend : HTTPS / TCP 443
+Runtime --> Frontend : hospeda
+Runtime --> API : executa
+API --> Engine : invoca
+API --> Auth : valida
+API --> Integration : consulta / envia
+API --> DBMS : SQL via TCP/IP + TLS\n(rede privada)
+Integration --> AcademicApi : REST / JSON\nHTTPS / TCP 443
+Actions ..> Runtime : CI/CD: pacote versionado\nHTTPS ou SSH restrito
+DBMS --> Data : persiste
+DBMS --> Migrations : aplica
+@enduml
