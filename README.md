@@ -3,7 +3,7 @@
 ## Repositório
 
 - Nome sugerido: `recomendador-grade-academica`
-- URL: preencher após a criação do repositório remoto.
+- URL: https://github.com/OPedroTxr/recomendador-grade-academica
 - Branches permanentes: `main` e `develop`.
 
 ## Fluxo
