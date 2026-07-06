@@ -1,0 +1,36 @@
+# Segredos e variáveis de ambiente
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependências e builds comuns
+node_modules/
+dist/
+build/
+coverage/
+target/
+.gradle/
+
+# Logs
+*.log
+logs/
+
+# Banco local e artefatos temporários
+*.sqlite
+*.sqlite3
+*.db
+tmp/
+.temp/
+
+# IDEs e sistema operacional
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Arquivos de backup
+*.bak
+*.backup

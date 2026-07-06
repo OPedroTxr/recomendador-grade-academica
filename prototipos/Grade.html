@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UERN - SIGAA - Matrícula On-Line</title>
+    <style>
+        :root {
+            --primary-blue: #0b3c5d;
+            --secondary-blue: #328cc1;
+            --bg-gray: #f4f4f4;
+            --border-color: #ccc;
+            --text-dark: #333;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 10px;
+            background-color: #fff;
+            color: var(--text-dark);
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .top-bar-right a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        /* User Info Header */
+        .user-header {
+            background-color: #eaeff5;
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .user-menu-buttons button {
+            background: #fff;
+            border: 1px solid #999;
+            padding: 2px 6px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-left: 4px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #b30000;
+            border-bottom: 2px solid #b30000;
+            padding-bottom: 3px;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            background-color: #eaeff5;
+            padding: 6px;
+            margin-top: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Recomendador Grid Layout */
+        .recomendador-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            align-items: flex-start;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group select, .slider-container {
+            padding: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            margin-bottom: 3px;
+            cursor: pointer;
+        }
+
+        .btn-gerar {
+            background-color: var(--primary-blue);
+            color: white;
+            border: 1px solid #002244;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 3px;
+            align-self: center;
+        }
+
+        /* Dados do Discente */
+        .dados-discente {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            background-color: #fafafa;
+            line-height: 1.6;
+        }
+
+        .btn-historico {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 2px 6px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        /* Workspace Layout - Tabela + Painel Lateral */
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 300px; /* Esquerda: Tabela flexível | Direita: Painel fixo de 300px */
+            gap: 15px;
+            margin-top: 15px;
+            align-items: start;
+        }
+
+        /* Classes Table */
+        .table-turmas {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-turmas th {
+            background-color: #d0daf0;
+            color: var(--primary-blue);
+            text-align: left;
+            padding: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .table-turmas td {
+            padding: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .bg-sub-header {
+            background-color: #e6eef8;
+            font-weight: bold;
+        }
+
+        .turma-row {
+            background-color: #fcfcfc;
+            font-size: 11px;
+            color: #555;
+        }
+
+        /* Impact Panel */
+        .impact-panel {
+            border: 1px solid var(--border-color);
+            background: #fff;
+            padding: 10px;
+        }
+
+        .impact-title {
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-container {
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            height: 15px;
+            width: 100%;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background-color: var(--secondary-blue);
+            height: 100%;
+            width: 28%; /* 5/18 */
+        }
+
+        /* Bottom Action Button */
+        .bottom-actions {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+        }
+
+        .btn-confirmar {
+            background-color: #0d47a1;
+            color: white;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid #002171;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-confirmar:hover {
+            background-color: #1565c0;
+        }
+
+        /* Legenda de ícones */
+        .legendas {
+            font-size: 11px;
+            margin: 10px 0;
+            text-align: center;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div>UERN - SIGAA - Sistema Integrado de Gestão de Atividades Acadêmicas</div>
+        <div class="top-bar-right">
+            <span>A+ A-</span>
+            <a href="#">Ajuda?</a>
+            <a href="#">SAIR</a>
+        </div>
+    </div>
+
+    <div class="user-header">
+        <div>
+            <strong>PEDRO ÁLVARES CABRAL</strong> <br>
+            <span style="font-size: 11px; color: #555;">DEPARTAMENTO DE LETRAS VERNÁCULAS (FALA) (11.01.16.02)</span>
+        </div>
+        <div style="text-align: right;">
+            <span style="font-size: 11px;">Semestre atual: <strong>2021.2</strong></span>
+            <div class="user-menu-buttons" style="margin-top: 4px;">
+                <button>Módulos</button>
+                <button>Caixa Postal</button>
+                <button>Abrir Chamado</button>
+                <button>Menu Discente</button>
+                <button>Alterar senha</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        Portal do Discente &gt; Matrícula On-Line 2021.2 &gt; Turmas Abertas do Currículo do Aluno
+    </div>
+
+    <div class="section-title">RECOMENDADOR INTELIGENTE DE GRADE (NOVO)</div>
+    
+    <div class="recomendador-container">
+        <div class="form-group">
+            <label for="meta">Meta de Formatura</label>
+            <select id="meta">
+                <option>Formar em [X] semestres (Fast Track)</option>
+                <option>Formação Normal</option>
+                <option>Formação Mais Lenta</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Carga Horária Semanal Max.</label>
+            <div class="slider-wrapper">
+                <span>15h</span>
+                <input type="range" min="15" max="40" value="15" style="flex: 1;">
+                <span>40h</span>
+            </div>
+            <span style="text-align: center; font-weight: bold; color: var(--secondary-blue);">15h</span>
+        </div>
+
+        <div class="form-group checkbox-group">
+            <label style="font-weight: bold; margin-bottom: 3px;">Prioridade</label>
+            <label><input type="checkbox" checked> Mais Eletivas</label>
+            <label><input type="checkbox"> Mais Obrigatórias</label>
+            <label><input type="checkbox"> Turno da Noite</label>
+            <label><input type="checkbox"> Turno da Manhã</label>
+        </div>
+
+        <button class="btn-gerar">Gerar Nova Grade Recomendada</button>
+    </div>
+
+    <div class="section-subtitle">DADOS DO DISCENTE</div>
+    <div class="dados-discente">
+        <strong>Discente:</strong> 20210000048 - PEDRO ÁLVARES CABRAL <button class="btn-historico">Ver histórico</button> <br>
+        <strong>Matriz Curricular:</strong> LETRAS - MOSSORÓ - LICENCIATURA - A Distância - LÍNGUA PORTUGUESA - MTN <br>
+        <strong>Currículo:</strong> 0000001
+    </div>
+
+    <div class="section-subtitle">TURMAS ABERTAS PARA OS COMPONENTES DO SEU CURRÍCULO</div>
+    
+    <div class="legendas">
+        🟢 É permitida a matrícula nesse componente &nbsp;&nbsp;&nbsp; 🔴 Não é permitida a matrícula nesse componente &nbsp;&nbsp;&nbsp; 🔍 Ver detalhes da turma &nbsp;&nbsp;&nbsp; 📄 Turma possui reservas para seu curso
+    </div>
+
+    <div class="workspace">
+        
+        <div>
+            <table class="table-turmas">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">Sel.</th>
+                        <th>Turma</th>
+                        <th>Docente(s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="bg-sub-header">
+                        <td colspan="3">🟢 * EAD1001 - FONÉTICA E FONOLOGIA (Obrig. Currículo)</td>
+                    </tr>
+                    <tr class="turma-row">
+                        <td><input type="checkbox" checked></td>
+                        <td>Turma 01</td>
+                        <td>A DEFINIR DOCENTE</td>
+                    </tr>
+
+                    <tr class="bg-sub-header">
+                        <td colspan="3">🟢 * EAD1002 - PRODUÇÃO TEXTUAL I (Obrig. Currículo)</td>
+                    </tr>
+                    <tr class="turma-row">
+                        <td><input type="checkbox" checked></td>
+                        <td>Turma 01</td>
+                        <td>A DEFINIR DOCENTE</td>
+                    </tr>
+
+                    <tr class="bg-sub-header">
+                        <td colspan="3">🟢 * EAD1003 - INTRODUÇÃO À LINGUÍSTICA (Obrig. Currículo)</td>
+                    </tr>
+                    <tr class="turma-row">
+                        <td><input type="checkbox" checked></td>
+                        <td>Turma 01</td>
+                        <td>A DEFINIR DOCENTE</td>
+                    </tr>
+
+                    <tr class="bg-sub-header">
+                        <td colspan="3">🟢 * EAD1004 - TEORIA DA LITERATURA I (Obrig. Currículo)</td>
+                    </tr>
+                    <tr class="turma-row">
+                        <td><input type="checkbox" checked></td>
+                        <td>Turma 01</td>
+                        <td>A DEFINIR DOCENTE</td>
+                    </tr>
+
+                    <tr class="bg-sub-header">
+                        <td colspan="3">🟢 * EAD1005 - HISTÓRIA DA LÍNGUA PORTUGUESA (Obrig. Currículo)</td>
+                    </tr>
+                    <tr class="turma-row">
+                        <td><input type="checkbox"></td>
+                        <td>Turma 01</td>
+                        <td>A DEFINIR DOCENTE</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="impact-panel">
+            <div class="impact-title">IMPACTO DA GRADE</div>
+            <strong>Formação prevista:</strong><br>
+            Julho/2023 - 6 semestres <br><br>
+            <strong>Matérias Pendentes Cumpridas:</strong> 5/18
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-actions">
+        <button class="btn-confirmar">⚙ Adicionar Turmas Selecionadas e Confirmar Grade</button>
+    </div>
+
+</body>
+</html>
