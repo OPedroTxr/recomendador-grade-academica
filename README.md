@@ -2,9 +2,10 @@
 
 ## Repositório
 
-- Nome sugerido: `recomendador-grade-academica`
+- Nome: `recomendador-grade-academica`
 - URL: https://github.com/OPedroTxr/recomendador-grade-academica
 - Branches permanentes: `main` e `develop`.
+- Link do Drive com todas informações: https://drive.google.com/drive/folders/1k05DyQNCpFFoZIuDmVX8gyPCdPDDxhvq
 
 ## Fluxo
 
